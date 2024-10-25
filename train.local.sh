@@ -1,1 +1,1 @@
-bash finetune/runner.sh
+bash py/runner.sh
