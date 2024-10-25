@@ -94,7 +94,7 @@ def main(fabric: L.Fabric, data_dir: Path, checkpoint_dir: Path, out_dir: Path) 
     config = Config.from_name(name=checkpoint_dir.name, adapter_start_layer=0)
     checkpoint_path = checkpoint_dir / "lit_model.pth"
     global WANDB_LOGGING
-    if WANDB_LOGGING:
+    if WANDB_LOGGING and fabric.local_rank == 0:
         try:
             wandb.init(config=config.__dict__)
         except:
@@ -221,7 +221,7 @@ def train(
                 # + f" loss {loss.item():.4f},"
                 + f" iter time: {(t1 - iter_t0) * 1000:.2f}ms" + (" (optimizer.step)" if not is_accumulating else ""),
             )
-            if WANDB_LOGGING:
+            if WANDB_LOGGING and fabric.local_rank == 0:
                 wandb.log({
                     "iter_num": iter_num, 
                     "step_count": step_count, 
@@ -234,7 +234,7 @@ def train(
             val_loss = validate(fabric, model, val_data, tokenizer, longest_seq_length)
             t1 = time.perf_counter() - t0
             rank_print(fabric, f"step {iter_num}: val loss {val_loss.item():.4f}, val time: {t1 * 1000:.2f}ms")
-            if WANDB_LOGGING:
+            if WANDB_LOGGING and fabric.local_rank == 0:
                 wandb.log({
                     "iter_num": iter_num, 
                     "val_loss": val_loss.item(), 
