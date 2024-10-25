@@ -22,13 +22,18 @@ else
 fi
 unset __conda_setup
 
-pip install torch~=2.3.0 torch_xla[tpu]~=2.3.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
+conda create -y -n jarvis python=3.11
+
+conda activate jarvis
+
+pip install torch~=2.5.0 torch_xla[tpu]~=2.5.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
 
 git clone https://github.com/deveworld/litgpt-phi-tpu --recursive
 
 cd ~/litgpt-phi-tpu/litgpt
 pip install uvloop
 pip install -e '.[all]'
+pip install torch~=2.5.0 torch_xla[tpu]~=2.5.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
 
 sudo apt update
 sudo apt install libopenblas-dev
