@@ -18,6 +18,13 @@ from litgpt.adapter import GPT, Block, Config, adapter_filter, mark_only_adapter
 from litgpt.tokenizer import Tokenizer
 from litgpt.utils import check_valid_checkpoint_dir, chunked_cross_entropy, estimate_flops, lazy_load, num_parameters
 
+WANDB_LOGGING = False
+try:
+    import wandb
+    WANDB_LOGGING = True
+except:
+    print("No wandb, no logging! skipping...")
+
 # support running without installing as a package
 wd = Path(__file__).parents[3].resolve()
 sys.path.append(str(wd))
@@ -86,6 +93,12 @@ def main(fabric: L.Fabric, data_dir: Path, checkpoint_dir: Path, out_dir: Path) 
 
     config = Config.from_name(name=checkpoint_dir.name, adapter_start_layer=0)
     checkpoint_path = checkpoint_dir / "lit_model.pth"
+    if WANDB_LOGGING:
+        try:
+            wandb.init(config=config.__dict__)
+        except:
+            print("Failed to wandb init")
+            WANDB_LOGGING = False
     rank_print(fabric, f"Loading model {str(checkpoint_path)!r} with {config.__dict__}")
 
     if reduce_cpu_memory_usage_during_load:
@@ -158,6 +171,8 @@ def train(
     step_count = 0
     total_t0 = time.perf_counter()
 
+    if WANDB_LOGGING:
+        wandb.watch(model, log_freq=log_interval)
     xm.mark_step()
     for iter_num in range(1, max_iters + 1):
         if step_count <= warmup_steps:
@@ -204,12 +219,26 @@ def train(
                 # + f" loss {loss.item():.4f},"
                 + f" iter time: {(t1 - iter_t0) * 1000:.2f}ms" + (" (optimizer.step)" if not is_accumulating else ""),
             )
+            if WANDB_LOGGING:
+                wandb.log({
+                    "iter_num": iter_num, 
+                    "step_count": step_count, 
+                # uncomment to log the loss. this will considerably slow down the iteration times
+                #    "loss": loss.item(),
+                })
 
         if not is_accumulating and step_count % eval_interval == 0:
             t0 = time.perf_counter()
             val_loss = validate(fabric, model, val_data, tokenizer, longest_seq_length)
             t1 = time.perf_counter() - t0
             rank_print(fabric, f"step {iter_num}: val loss {val_loss.item():.4f}, val time: {t1 * 1000:.2f}ms")
+            if WANDB_LOGGING:
+                wandb.log({
+                    "iter_num": iter_num, 
+                    "val_loss": val_loss.item(), 
+                # uncomment to log the loss. this will considerably slow down the iteration times
+                #    "loss": loss.item(),
+                })
             fabric.barrier()
         if not is_accumulating and step_count % save_interval == 0:
             checkpoint_path = out_dir / f"iter-{iter_num:06d}-ckpt.pth"
