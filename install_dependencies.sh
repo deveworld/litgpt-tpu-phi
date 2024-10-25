@@ -10,7 +10,6 @@ bash Miniconda3-latest-Linux-x86_64.sh -b
 
 rm Miniconda3-latest-Linux-x86_64.sh
 
-rm ~/.local/bin/pip*
 rm ~/.local/bin/litgpt
 
 __conda_setup="$('/home/ubuntu/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -28,6 +27,8 @@ unset __conda_setup
 conda create -y -n jarvis python=3.11
 
 conda activate jarvis
+
+rm ~/.local/bin/pip*
 
 pip install torch~=2.4.0 torch_xla[tpu]~=2.4.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
 
