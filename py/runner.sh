@@ -18,6 +18,7 @@ unset __conda_setup
 
 conda activate jarvis
 
+# TODO: change data to yours
 python py/prepare_checkpoints.py \
 --data_file_name=alpaca_data_cleaned_archive.json \
 --data_file_url=https://raw.githubusercontent.com/tloen/alpaca-lora/main/alpaca_data_cleaned_archive.json

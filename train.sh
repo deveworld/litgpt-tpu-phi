@@ -22,20 +22,19 @@ gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME \
 
 echo "[local] Git pull"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \
-"cd litgpt-phi-tpu && git pull"
+"sudo apt install git wget \
+&& git clone https://github.com/deveworld/litgpt-tpu-phi/ \
+&& git clone https://github.com/Lightning-AI/litgpt/ \
+$$ cd ~/litgpt-tpu-phi/ && git pull"
 
-echo "[local] Workflow 1/2 - install_dependencies"
+echo "[local] Install_dependencies"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \
 "cd ~/litgpt-phi-tpu; bash install_dependencies.sh; "
 
-echo "[local] Workflow 2/2 - prepare_checkpoints"
-gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \
-"cd ~/litgpt-phi-tpu; bash prepare_checkpoints.sh; "
-
 echo "[local] Set runner.sh"
-gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command "chmod +x /home/${USER}/litgpt-phi-tpu/runner.sh"
+gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command "chmod +x /home/${USER}/litgpt-phi-tpu/py/runner.sh"
 
 echo "[local] RUN!!!"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone us-central2-b --worker=all --command \
 "screen -L -d -m bash -i -c 'export TCMALLOC_LARGE_ALLOC_REPORT_THRESHOLD=107374182400; \
-cd litgpt-phi-tpu; /home/${USER}/litgpt-phi-tpu/runner.sh'"
+cd litgpt-phi-tpu; /home/${USER}/litgpt-phi-tpu/py/runner.sh'"
