@@ -32,7 +32,7 @@ rm ~/.local/bin/pip*
 
 pip install torch~=2.4.0 torch_xla[tpu]~=2.4.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
 
-cd ~/litgpt-tpu-phi/litgpt
+cd ~/litgpt
 pip install uvloop
 pip install -e '.[all]'
 pip install torch~=2.4.0 torch_xla[tpu]~=2.4.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
