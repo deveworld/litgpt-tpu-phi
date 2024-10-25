@@ -1,3 +1,5 @@
+# Copyright Lightning AI. Licensed under the Apache License 2.0, see litgpt's LICENSE file.
+
 import os
 import sys
 import time
@@ -20,9 +22,9 @@ from litgpt.utils import check_valid_checkpoint_dir, chunked_cross_entropy, esti
 wd = Path(__file__).parents[3].resolve()
 sys.path.append(str(wd))
 
-from extensions.xla.generate.base import generate
-from extensions.xla.scripts.prepare_alpaca import generate_prompt
-from extensions.xla.utils import rank_print, sequential_load_and_fsdp_wrap
+from ..generate.base import generate
+from prepare_checkpoints import generate_prompt
+from ..utils import rank_print, sequential_load_and_fsdp_wrap
 
 eval_interval = 200
 save_interval = 200
