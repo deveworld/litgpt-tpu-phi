@@ -18,8 +18,8 @@ unset __conda_setup
 
 conda activate jarvis
 
-python finetune/prepare_checkpoints.py \
+python py/prepare_checkpoints.py \
 --data_file_name=alpaca_data_cleaned_archive.json \
 --data_file_url=https://raw.githubusercontent.com/tloen/alpaca-lora/main/alpaca_data_cleaned_archive.json
 
-python finetune/adapter.py --precision bf16-true
+python py/adapter.py --precision bf16-true
