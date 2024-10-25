@@ -2,7 +2,7 @@ export ALLOW_MULTIPLE_LIBTPU_LOAD=1
 export PJRT_DEVICE=TPU
 export LD_LIBRARY_PATH=~/miniconda3/envs/jarvis/lib/
 
-cd ~/litgpt-tpu-phi/finetune/
+cd ~/litgpt-tpu-phi/
 
 __conda_setup="$('/home/ubuntu/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -18,8 +18,8 @@ unset __conda_setup
 
 conda activate jarvis
 
-python prepare_checkpoints.py \
+python finetun/prepare_checkpoints.py \
 --data_file_name=alpaca_data_cleaned_archive.json \
 --data_file_url=https://raw.githubusercontent.com/tloen/alpaca-lora/main/alpaca_data_cleaned_archive.json
 
-python adapter.py --precision bf16-true
+python finetun/adapter.py --precision bf16-true
