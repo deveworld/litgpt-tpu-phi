@@ -93,6 +93,7 @@ def main(fabric: L.Fabric, data_dir: Path, checkpoint_dir: Path, out_dir: Path) 
 
     config = Config.from_name(name=checkpoint_dir.name, adapter_start_layer=0)
     checkpoint_path = checkpoint_dir / "lit_model.pth"
+    global WANDB_LOGGING
     if WANDB_LOGGING:
         try:
             wandb.init(config=config.__dict__)
@@ -171,6 +172,7 @@ def train(
     step_count = 0
     total_t0 = time.perf_counter()
 
+    global WANDB_LOGGING
     if WANDB_LOGGING:
         wandb.watch(model, log_freq=log_interval)
     xm.mark_step()
