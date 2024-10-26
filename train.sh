@@ -28,9 +28,9 @@ gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --comma
 "cd ~/litgpt-tpu-phi; bash install_dependencies.sh; "
 
 echo "[local] Set runner.sh"
-gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command "chmod +x /home/${USER}/litgpt-tpu-phi/py/runner.sh"
+gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command "chmod +x /home/${USER}/litgpt-tpu-phi/py/runner_multi.sh"
 
 echo "[local] RUN!!!"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \
 "screen -L -d -m bash -i -c 'export TCMALLOC_LARGE_ALLOC_REPORT_THRESHOLD=107374182400; \
-cd litgpt-tpu-phi; /home/${USER}/litgpt-tpu-phi/py/runner.sh'"
+cd litgpt-tpu-phi; /home/${USER}/litgpt-tpu-phi/py/runner_multi.sh'"

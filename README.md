@@ -1,8 +1,8 @@
 # litgpt-phi-tpu
 
 ## Train
-Clone this repo and edit `py/runner.sh` for your preferences.
-
+Fork this repo.
+Edit `py/runner.sh` or `py/runner_multi.sh` for your preferences.
 ### For local (single TPU) train
 `curl https://raw.githubusercontent.com/YOUR_GH_ID/light-tpu-phi/refs/heads/main/main.sh | bash`
 
