@@ -9,7 +9,7 @@ Clone this repo and edit `py/runner.sh` for your preferences.
 And `cd light-tpu-phi && bash train.local.sh`
 
 ### For network (multi TPU = TPU pod) train
-`git clone https://github.com/YOUR_GH_ID/light-tpu-phi/`
+`git clone https://github.com/YOUR_GH_ID/litgpt-tpu-phi/`
 
 And `cd light-tpu-phi && bash train.sh`
 
