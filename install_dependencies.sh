@@ -24,9 +24,16 @@ else
 fi
 unset __conda_setup
 
-conda create -y -n jarvis python=3.11
+find_in_conda_env(){
+    conda env list | grep "${@}" >/dev/null 2>/dev/null
+}
 
-conda activate jarvis
+if find_in_conda_env ".*jarvis.*" ; then
+   conda activate jarvis
+else 
+   conda create -y -n jarvis python=3.11
+   conda activate jarvis
+fi
 
 rm ~/.local/bin/pip*
 
