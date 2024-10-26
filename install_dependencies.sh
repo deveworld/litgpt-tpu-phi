@@ -37,8 +37,8 @@ pip install uvloop
 pip install -e '.[all]'
 pip install torch~=2.4.0 torch_xla[tpu]~=2.4.0 torchvision -f https://storage.googleapis.com/libtpu-releases/index.html
 
-sudo apt update
-sudo apt install libopenblas-dev
+sudo apt update -y
+sudo apt install libopenblas-dev -y
 
 cd ~/litgpt-tpu-phi
 litgpt download $repo_id
