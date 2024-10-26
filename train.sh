@@ -20,10 +20,8 @@ gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME \
 
 echo "[local] Git pull"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \
-"sudo apt install git wget \
-&& git clone https://github.com/deveworld/litgpt-tpu-phi/ \
-&& git clone https://github.com/Lightning-AI/litgpt/ \
-$$ cd ~/litgpt-tpu-phi/ && git pull"
+" sudo apt install git wget ; git clone https://github.com/deveworld/litgpt-tpu-phi/ ;\
+git clone https://github.com/Lightning-AI/litgpt/ ; cd ~/litgpt-tpu-phi/ && git pull"
 
 echo "[local] Install_dependencies"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \
