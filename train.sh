@@ -17,6 +17,8 @@ gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME \
 echo "[local] Removing screens"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME \
 --zone $ZONE --worker=all --command "killall screen"
+gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME \
+--zone $ZONE --worker=all --command "rm screenlog*"
 
 echo "[local] Git pull"
 gcloud compute tpus tpu-vm ssh $USER@$TPU_NAME --zone $ZONE --worker=all --command \

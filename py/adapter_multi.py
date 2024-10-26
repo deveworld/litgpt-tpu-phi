@@ -221,7 +221,7 @@ def train(
                 # + f" loss {loss.item():.4f},"
                 + f" iter time: {(t1 - iter_t0) * 1000:.2f}ms" + (" (optimizer.step)" if not is_accumulating else ""),
             )
-            if WANDB_LOGGING and fabric.local_rank == 0:
+            if WANDB_LOGGING and fabric.global_rank == 0:
                 wandb.log({
                     "iter_num": iter_num, 
                     "step_count": step_count, 
